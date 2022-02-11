@@ -14,8 +14,16 @@ router.get("/", (req, res, next) => {
 });
 
 // Get ID
-router.get("/:id", validateTheId, (req, res) => {
-  res.json(req.projects);
+router.get("/:id", validateTheId, (req, res, next) => {
+  const { id } = req.params;
+
+  Project.get(id)
+    .then((project) => {
+      res.json(project);
+    })
+    .catch(next);
+
+  // res.json(req.projects);
 });
 
 // Post

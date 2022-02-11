@@ -18,7 +18,7 @@ async function validateId(req, res, next) {
   }
 }
 
-async function validateBody(req, res, next) {
+function validateBody(req, res, next) {
   const { project_id, description, notes, completed } = req.validateBody;
   if (!project_id || !description || !notes) {
     res.status(400).json({
