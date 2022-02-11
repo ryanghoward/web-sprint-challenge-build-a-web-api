@@ -49,19 +49,9 @@ router.put("/:id", validateProjectId, validateBody, async (req, res, next) => {
 
 // Delete ID
 router.delete("./id", validateProjectId, async (req, res, next) => {
-  // try {
-  //   const result = await Project.remove(req.params.id);
-  //   res.json(result);
-  // } catch {
-  //   res.status(404).json({
-  //     message: "did not delete project",
-  //   });
-  // }
-  // next();
-
-  const { selectedId } = req.params.id;
+  const { id } = req.params;
   try {
-    const results = await Project.remove(selectedId);
+    const results = await Project.remove(id);
     res.status(201).json(results);
   } catch (err) {
     next(err);
