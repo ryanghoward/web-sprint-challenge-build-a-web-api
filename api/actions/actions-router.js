@@ -37,20 +37,22 @@ router.post("/", (req, res, next) => {
 });
 
 // Put ID
-router.put("/:id", validateId, validateBody, (req, res, next) => {
-  Actions.update(req.params.id, {
-    project_id: req.project_id,
-    description: req.description,
-    notes: req.notes,
-    completed: req.completed,
-  })
-    .then(() => {
-      return Actions.get(req.params.id);
+router.put("/:id", (req, res) => {
+  const changes = req.body;
+  Actions.update(req.params.id, changes)
+    .then((actions) => {
+      if (actions) {
+        res.status(400).json(actions);
+      } else {
+        res.status(404).json({ message: "No such action found :(" });
+      }
     })
-    .then((action) => {
-      res.json(action);
-    })
-    .catch(next);
+    .catch((error) => {
+      console.log(error);
+      res.status(400).json({
+        message: "There was am error updating the action :(",
+      });
+    });
 });
 
 // Delete ID

@@ -22,8 +22,6 @@ router.get("/:id", validateTheId, (req, res, next) => {
       res.json(project);
     })
     .catch(next);
-
-  // res.json(req.projects);
 });
 
 // Post
