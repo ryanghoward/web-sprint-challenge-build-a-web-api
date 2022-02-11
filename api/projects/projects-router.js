@@ -50,9 +50,9 @@ router.put("/:id", validateTheId, validateBody, async (req, res, next) => {
 
 // Delete ID
 router.delete("./id", validateTheId, async (req, res, next) => {
-  const id = req.params.id;
+  const selectedId = req.params.id;
   try {
-    const results = await Project.remove(id);
+    const results = await Project.remove(selectedId);
     res.status(201).json(results);
   } catch (err) {
     next(err);

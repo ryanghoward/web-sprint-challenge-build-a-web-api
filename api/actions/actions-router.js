@@ -50,7 +50,7 @@ router.put("/:id", (req, res) => {
     .catch((error) => {
       console.log(error);
       res.status(400).json({
-        message: "There was am error updating the action :(",
+        message: "There was an error updating the action :(",
       });
     });
 });

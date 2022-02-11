@@ -137,17 +137,31 @@ We have provided test data for all the resources.
 
 ## Submission format
 
-- [ ] Submit via Codegrade by pushing commits to your `main` branch.
-- [ ] Check Codegrade before the deadline to compare its results against your local tests.
-- [ ] Check Codegrade on the days following the Sprint Challenge for reviewer feedback.
-- [ ] New commits will be evaluated by Codegrade if pushed _before_ the sprint challenge deadline.
+- [x] Submit via Codegrade by pushing commits to your `main` branch.
+- [x] Check Codegrade before the deadline to compare its results against your local tests.
+- [x] Check Codegrade on the days following the Sprint Challenge for reviewer feedback.
+- [x] New commits will be evaluated by Codegrade if pushed _before_ the sprint challenge deadline.
 
 ## Interview Questions
 
 Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics. You might prepare by writing down your own answers before hand.
 
 1. The core features of Node.js and Express and why they are useful.
-1. Understand and explain the use of Middleware.
-1. The basic principles of the REST architectural style.
-1. Understand and explain the use of Express Routers.
-1. Describe tooling used to manually test the correctness of an API.
+
+- By emulating database languages, Node.js and express allow users to connect to databases.
+
+2. Understand and explain the use of Middleware.
+
+- Middleware is used to reduce database trips and run validation tests while also improving the functionality of an application.
+
+3. The basic principles of the REST architectural style.
+
+- Everything is a resource, with a unique URL for each one. The protocol is stateless, and resources may have several representations. HTTP methods are used to manage resources.
+
+4. Understand and explain the use of Express Routers.
+
+- The router routes http requests to defined end points depending on the URL rather than utilizing the HTTP approach.
+
+5. Describe tooling used to manually test the correctness of an API.
+
+- Postman or HTTPie are examples of interactive and automated tools for checking your project's APIs.
