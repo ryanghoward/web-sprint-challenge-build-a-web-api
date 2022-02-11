@@ -25,7 +25,7 @@ router.post("/", (req, res, next) => {
 
   if (!project_id || !notes || !description) {
     res.status(400).json({
-      message: "Something something something error",
+      message: "There was an Error :(",
     });
   } else {
     Actions.insert({ project_id, notes, description })

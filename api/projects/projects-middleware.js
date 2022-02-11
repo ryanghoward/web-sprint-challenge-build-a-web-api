@@ -1,9 +1,9 @@
 // add middlewares here related to projects
 const Project = require("./projects-model");
 
-async function validateTheId(req, res, next) {
+async function validateProjectId(req, res, next) {
   try {
-    const { id } = req.params;
+    const { id } = req.params.id;
     const project = await Project.get(id);
     if (!project) {
       next({ status: 404, message: "No such user found :(" });
@@ -32,4 +32,4 @@ async function validateBody(req, res, next) {
   }
 }
 
-module.exports = { validateTheId, validateBody };
+module.exports = { validateProjectId, validateBody };

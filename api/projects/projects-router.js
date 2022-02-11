@@ -1,6 +1,6 @@
 // Write your "projects" router here!
 const express = require("express");
-const { validateTheId, validateBody } = require("./projects-middleware");
+const { validateProjectId, validateBody } = require("./projects-middleware");
 const Project = require("./projects-model");
 const router = express.Router();
 
@@ -14,9 +14,8 @@ router.get("/", (req, res, next) => {
 });
 
 // Get ID
-router.get("/:id", validateTheId, (req, res, next) => {
+router.get("/:id", validateProjectId, (req, res, next) => {
   const { id } = req.params;
-
   Project.get(id)
     .then((project) => {
       res.json(project);
@@ -38,7 +37,7 @@ router.post("/", validateBody, (req, res, next) => {
 });
 
 // Put ID
-router.put("/:id", validateTheId, validateBody, async (req, res, next) => {
+router.put("/:id", validateProjectId, validateBody, async (req, res, next) => {
   let changes = { ...req.body, completed: req.completed };
   const updateProject = await Project.update(req.params.id, changes);
   try {
@@ -49,8 +48,18 @@ router.put("/:id", validateTheId, validateBody, async (req, res, next) => {
 });
 
 // Delete ID
-router.delete("./id", validateTheId, async (req, res, next) => {
-  const selectedId = req.params.id;
+router.delete("./id", validateProjectId, async (req, res, next) => {
+  // try {
+  //   const result = await Project.remove(req.params.id);
+  //   res.json(result);
+  // } catch {
+  //   res.status(404).json({
+  //     message: "did not delete project",
+  //   });
+  // }
+  // next();
+
+  const { selectedId } = req.params.id;
   try {
     const results = await Project.remove(selectedId);
     res.status(201).json(results);
@@ -60,7 +69,7 @@ router.delete("./id", validateTheId, async (req, res, next) => {
 });
 
 // Get ID Actions
-router.get("/:id/actions", validateTheId, (req, res, next) => {
+router.get("/:id/actions", validateProjectId, (req, res, next) => {
   Project.getProjectActions(req.params.id)
     .then((actions) => {
       {
