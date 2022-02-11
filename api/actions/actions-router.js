@@ -15,14 +15,25 @@ router.get("/", (req, res, next) => {
 });
 
 // Get ID
-router.get("/:id", validateId, (req, res) => {
-  res.status(200).json(req.actions);
+router.get("/:id", validateId, async (req, res, next) => {
+  try {
+    const action = await Actions.get(req.params.id);
+    if (!action) {
+      res.status(404).json({
+        message: "That action does not exist :(",
+      });
+    } else {
+      res.json(action);
+    }
+  } catch (err) {
+    next(err);
+  }
+  // res.status(200).json(req.actions);
 });
 
 // Post
 router.post("/", (req, res, next) => {
   const { project_id, notes, description } = req.body;
-
   if (!project_id || !notes || !description) {
     res.status(400).json({
       message: "There was an Error :(",
@@ -56,12 +67,23 @@ router.put("/:id", (req, res) => {
 });
 
 // Delete ID
-router.delete("/:id", validateId, async (req, res, next) => {
+router.delete("/:id", validateId, async (req, res) => {
   try {
     const action = await Actions.remove(req.params.id);
-    res.status(200).json(action);
-  } catch (err) {
-    next(err);
+    if (!action) {
+      res.status(404).json({
+        message: "An action with that ID does not exist :(",
+      });
+    } else {
+      await Actions.remove(req.params.id);
+      res.json(action);
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "That action could not be removed :(",
+      error: error.message,
+      stack: error.stack,
+    });
   }
 });
 

@@ -14,13 +14,30 @@ router.get("/", (req, res, next) => {
 });
 
 // Get ID
-router.get("/:id", validateProjectId, (req, res, next) => {
-  const { id } = req.params;
-  Project.get(id)
-    .then((project) => {
+router.get("/:id", async (req, res) => {
+  try {
+    const project = await Project.get(req.params.id);
+    if (!project) {
+      res.status(404).json({
+        message: "That project does not exist :(",
+      });
+    } else {
       res.json(project);
-    })
-    .catch(next);
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "That project could not be retrieved :(",
+      err: err.message,
+      stack: err.stack,
+    });
+  }
+
+  // const { id } = req.params;
+  // Project.get(id)
+  //   .then((project) => {
+  //     res.json(project);
+  //   })
+  //   .catch(next);
 });
 
 // Post
@@ -49,7 +66,7 @@ router.put("/:id", validateProjectId, validateBody, async (req, res, next) => {
 
 // Delete ID
 router.delete("./id", validateProjectId, async (req, res, next) => {
-  const { id } = req.params;
+  const id = req.params.id;
   try {
     const results = await Project.remove(id);
     res.status(201).json(results);
