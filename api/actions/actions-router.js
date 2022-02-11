@@ -4,7 +4,6 @@ const router = express.Router();
 
 const Actions = require("./actions-model");
 const { validateId, validateBody } = require("./actions-middlware");
-// const { validateTheId } = require("../projects/projects-middleware");
 
 // Get
 router.get("/", (req, res, next) => {
@@ -21,17 +20,19 @@ router.get("/:id", validateId, (req, res) => {
 });
 
 // Post
-router.post("/", validateBody, async (req, res, next) => {
-  try {
-    const action = await Actions.insert({
-      project_id: req.project_id,
-      description: req.description,
-      notes: req.notes,
-      completed: req.completed,
+router.post("/", (req, res, next) => {
+  const { project_id, notes, description } = req.body;
+
+  if (!project_id || !notes || !description) {
+    res.status(400).json({
+      message: "Something something something error",
     });
-    res.status(201).json(action);
-  } catch (err) {
-    next(err);
+  } else {
+    Actions.insert({ project_id, notes, description })
+      .then((newAction) => {
+        res.status(201).json(newAction);
+      })
+      .catch(next);
   }
 });
 
