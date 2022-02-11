@@ -25,9 +25,9 @@ async function validateBody(req, res, next) {
       message: "Name or Description is missing :(",
     });
   } else {
-    req.completed = completed;
-    req.description = description;
     req.name = name;
+    req.description = description;
+    req.completed = completed;
     next();
   }
 }

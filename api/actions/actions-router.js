@@ -1,10 +1,10 @@
 // Write your "actions" router here!
-const Actions = require("./actions-model");
-const { validateBody, validateId } = require("./actions-middleware");
-const { validateId } = require("../projects/projects-middleware");
-
+const express = require("express");
 const router = express.Router();
-const express = requires(express);
+
+const Actions = require("./actions-model");
+const { validateId, validateBody } = require("./actions-middlware");
+// const { validateTheId } = require("../projects/projects-middleware");
 
 // Get
 router.get("/", (req, res, next) => {
@@ -24,10 +24,10 @@ router.get("/:id", validateId, (req, res) => {
 router.post("/", validateBody, async (req, res, next) => {
   try {
     const action = await Actions.insert({
-      completed: req.completed,
-      notes: req.notes,
-      description: req.description,
       project_id: req.project_id,
+      description: req.description,
+      notes: req.notes,
+      completed: req.completed,
     });
     res.status(201).json(action);
   } catch (err) {
@@ -36,12 +36,12 @@ router.post("/", validateBody, async (req, res, next) => {
 });
 
 // Put ID
-router.put("/:id", validateBody, validateId, (req, res, next) => {
+router.put("/:id", validateId, validateBody, (req, res, next) => {
   Actions.update(req.params.id, {
-    completed: req.completed,
-    notes: req.notes,
-    description: req.description,
     project_id: req.project_id,
+    description: req.description,
+    notes: req.notes,
+    completed: req.completed,
   })
     .then(() => {
       return Actions.get(req.params.id);

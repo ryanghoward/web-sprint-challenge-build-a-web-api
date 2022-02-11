@@ -19,18 +19,18 @@ async function validateId(req, res, next) {
 }
 
 async function validateBody(req, res, next) {
-  const { completed, notes, description, project_id } = req.validateBody;
-  if (!notes || !description || !project_id) {
+  const { project_id, description, notes, completed } = req.validateBody;
+  if (!project_id || !description || !notes) {
     res.status(400).json({
       message: "Notes, Description, or Project ID is missing :(",
     });
   } else {
-    req.completed = completed;
-    req.notes = notes;
-    req.description = description;
     req.project_id = project_id;
+    req.description = description;
+    req.notes = notes;
+    req.completed = completed;
     next();
   }
 }
 
-module.exports = { validateBody, validateId };
+module.exports = { validateId, validateBody };
