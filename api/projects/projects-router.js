@@ -31,13 +31,6 @@ router.get("/:id", async (req, res) => {
       stack: err.stack,
     });
   }
-
-  // const { id } = req.params;
-  // Project.get(id)
-  //   .then((project) => {
-  //     res.json(project);
-  //   })
-  //   .catch(next);
 });
 
 // Post
